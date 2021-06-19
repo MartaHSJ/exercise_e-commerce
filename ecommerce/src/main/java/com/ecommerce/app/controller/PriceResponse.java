@@ -2,6 +2,8 @@ package com.ecommerce.app.controller;
 
 import java.time.LocalDateTime;
 
+import com.ecommerce.app.model.Price;
+
 /**
  * The Class PriceResponse.
  */
@@ -10,8 +12,8 @@ public class PriceResponse {
 	/** The product id. */
 	private long productId;
 
-	/** The brand. */
-	private int brand;
+	/** The brand name. */
+	private String brandName;
 
 	/** The price list. */
 	private int priceList;
@@ -24,26 +26,38 @@ public class PriceResponse {
 
 	/** The price. */
 	private double price;
-	
-	public PriceResponse() {
+
+	/**
+	 * Instantiates a new price response.
+	 * 
+	 * @param price
+	 */
+	public PriceResponse(Price price) {
 		super();
+		this.productId = price.getProductId();
+		this.brandName = price.getBrand().getName();
+		this.priceList = price.getPriceList();
+		this.applicablePeriodStart = price.getApplicablePeriodStart();
+		this.applicablePeriodEnd = price.getApplicablePeriodEnd();
+		this.price = price.getPrice();
+
 	}
 
 	/**
 	 * Instantiates a new price response.
 	 *
-	 * @param productId the product id
-	 * @param brand the brand
-	 * @param priceList the price list
+	 * @param productId             the product id
+	 * @param brand                 the brand
+	 * @param priceList             the price list
 	 * @param applicablePeriodStart the applicable period start
-	 * @param applicablePeriodEnd the applicable period end
-	 * @param price the price
+	 * @param applicablePeriodEnd   the applicable period end
+	 * @param price                 the price
 	 */
-	public PriceResponse(int productId, int brand, int priceList, LocalDateTime applicablePeriodStart,
+	public PriceResponse(long productId, String brand, int priceList, LocalDateTime applicablePeriodStart,
 			LocalDateTime applicablePeriodEnd, double price) {
 		super();
 		this.productId = productId;
-		this.brand = brand;
+		this.brandName = brand;
 		this.priceList = priceList;
 		this.applicablePeriodStart = applicablePeriodStart;
 		this.applicablePeriodEnd = applicablePeriodEnd;
@@ -69,21 +83,21 @@ public class PriceResponse {
 	}
 
 	/**
-	 * Gets the brand.
+	 * Gets the brand name.
 	 *
-	 * @return the brand
+	 * @return the brand name
 	 */
-	public int getBrand() {
-		return brand;
+	public String getBrandName() {
+		return brandName;
 	}
 
 	/**
-	 * Sets the brand.
+	 * Sets the brand name.
 	 *
-	 * @param brand the new brand
+	 * @param brandName the new brand name
 	 */
-	public void setBrand(int brand) {
-		this.brand = brand;
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
 	}
 
 	/**
@@ -158,11 +172,16 @@ public class PriceResponse {
 		this.price = price;
 	}
 
+	/**
+	 * To string.
+	 *
+	 * @return the string
+	 */
 	@Override
 	public String toString() {
-		return "PriceResponse [productId=" + productId + ", brand=" + brand + ", priceList=" + priceList
+		return "PriceResponse [productId=" + productId + ", brandName=" + brandName + ", priceList=" + priceList
 				+ ", applicablePeriodStart=" + applicablePeriodStart + ", applicablePeriodEnd=" + applicablePeriodEnd
 				+ ", price=" + price + "]";
 	}
-	
+
 }

@@ -1,0 +1,5 @@
+INSERT INTO brand (brand_id, name) VALUES (1, 'ZARA');
+INSERT INTO price_list (id_price, end_date, start_date , curr, price, price_list, priority, product_id, brand_id) VALUES (1, '2020-12-31 23:59:59', '2020-06-14 00:00:00', 'EUR',35.50, 1,0,35455,1);
+INSERT INTO price_list (id_price, end_date, start_date , curr, price, price_list, priority, product_id, brand_id) VALUES (2, '2020-06-14 18:30:00', '2020-06-14 15:00:00', 'EUR',25.45, 2,1,35455,1);
+INSERT INTO price_list (id_price, end_date, start_date , curr, price, price_list, priority, product_id, brand_id) VALUES (3, '2020-06-15 11:00:00', '2020-06-15 00:00:00', 'EUR',30.50, 3,1,35455,1);
+INSERT INTO price_list (id_price, end_date, start_date , curr, price, price_list, priority, product_id, brand_id) VALUES (4, '2020-12-31 23:59:59', '2020-06-15 16:00:00', 'EUR',38.95, 4,1,35455,1);

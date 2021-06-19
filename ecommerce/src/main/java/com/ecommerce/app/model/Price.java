@@ -9,23 +9,27 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
  * The Class Price.
  */
 @Entity
-@Table(name = "PRICE_LIST")
+@Table(name = "price_list")
 public class Price {
 
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "idPrice")
 	private long id;
 
 	/** The brand id. */
-	@Column(name = "BRAND_ID", nullable = false)
-	private BrandTypeEnum brandId;
+	@ManyToOne
+	@JoinColumn(name = "brand_id", updatable = false, nullable = false)
+	private Brand brand;
 
 	/** The applicable period start. */
 	@Column(name = "START_DATE", nullable = false)
@@ -56,7 +60,6 @@ public class Price {
 	@Column(name = "CURR", nullable = false)
 	private CurrEnum curr;
 
-	
 	/**
 	 * Instantiates a new price.
 	 */
@@ -67,19 +70,20 @@ public class Price {
 	/**
 	 * Instantiates a new price.
 	 *
-	 * @param brandId the brand id
+	 * @param productId             the product id
+	 * @param applicablePeriodEnd   the applicable period end
 	 * @param applicablePeriodStart the applicable period start
-	 * @param applicablePeriodEnd the applicable period end
-	 * @param priceList the price list
-	 * @param productId the product id
-	 * @param priority the priority
-	 * @param price the price
-	 * @param curr the curr
+	 * @param priceList             the price list
+	 * @param priority              the priority
+	 * @param price                 the price
+	 * @param curr                  the curr
+	 * @param brand                 the brand
 	 */
-	public Price(BrandTypeEnum brandId, LocalDateTime applicablePeriodStart, LocalDateTime applicablePeriodEnd,
-			int priceList, long productId, int priority, double price, CurrEnum curr) {
+	public Price(long productId, LocalDateTime applicablePeriodEnd, LocalDateTime applicablePeriodStart, int priceList,
+			int priority, double price, CurrEnum curr, Brand brand) {
+
 		super();
-		this.brandId = brandId;
+		this.brand = brand;
 		this.applicablePeriodStart = applicablePeriodStart;
 		this.applicablePeriodEnd = applicablePeriodEnd;
 		this.priceList = priceList;
@@ -108,21 +112,21 @@ public class Price {
 	}
 
 	/**
-	 * Gets the brand id.
+	 * Gets the brand.
 	 *
-	 * @return the brand id
+	 * @return the brand
 	 */
-	public BrandTypeEnum getBrandId() {
-		return brandId;
+	public Brand getBrand() {
+		return brand;
 	}
 
 	/**
-	 * Sets the brand id.
+	 * Sets the brand.
 	 *
-	 * @param brandId the new brand id
+	 * @param brand the new brand
 	 */
-	public void setBrandId(BrandTypeEnum brandId) {
-		this.brandId = brandId;
+	public void setBrand(Brand brand) {
+		this.brand = brand;
 	}
 
 	/**
@@ -258,9 +262,31 @@ public class Price {
 	 */
 	@Override
 	public String toString() {
-		return "Price [id=" + id + ", brandId=" + brandId + ", applicablePeriodStart=" + applicablePeriodStart
+		return "Price [id=" + id + ", brandId=" + 1 + ", applicablePeriodStart=" + applicablePeriodStart
 				+ ", applicablePeriodEnd=" + applicablePeriodEnd + ", priceList=" + priceList + ", productId="
 				+ productId + ", priority=" + priority + ", price=" + price + ", curr=" + curr + "]";
+	}
+
+	/**
+	 * Compare to.
+	 *
+	 * @param comparePriority the compare priority
+	 * @return the int
+	 */
+	public int compareTo(Price comparePriority) {
+		int compare = ((Price) comparePriority).getPriority();
+		/* For Descending order do like this */
+		return compare - this.priority;
+	}
+
+	/**
+	 * Checks if is between.
+	 *
+	 * @param date the date
+	 * @return true, if is between
+	 */
+	public boolean isBetween(LocalDateTime date) {
+		return applicablePeriodStart.isBefore(date) && applicablePeriodEnd.isAfter(date);
 	}
 
 }
